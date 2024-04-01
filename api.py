@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,render_template
 from Extractor import extract_data_from_pdf
 import base64
 
@@ -8,6 +8,9 @@ def pdf_extractor(pdf_data):
 
     decoded_data = base64.b64decode(pdf_data)
     return {'text': decoded_data.decode('utf-8')}
+@app.route('/')
+def init():
+    return render_template("index.html")
 
 @app.route('/api/conneqtion/upload', methods=['POST'])
 def upload_file():
