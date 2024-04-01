@@ -19,14 +19,8 @@ def upload_file():
         return jsonify({'error': 'No file part'})
 
     file = request.files['file']
-
-    # if user does not select file, browser also submit an empty part without filename
-    if file.filename == '':
-        return jsonify({'error': 'No selected file'})
-
     if file:
-        pdf_data = file.read()
-        extracted_data = extract_data_from_pdf(pdf_data)
+        extracted_data = extract_data_from_pdf(file)
         return extracted_data
 
     return jsonify({'error': 'Invalid file type'})
