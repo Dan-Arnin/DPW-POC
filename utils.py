@@ -2,7 +2,8 @@ import re
 
 
 def remove_newlines(text):
-    return re.sub(r'\n', '', text)
+    if text:
+        return re.sub(r'\n', '', text)
 
 
 def remove_strings_without_colon(string_list):
@@ -71,8 +72,7 @@ def process_values(dictionary):
                 if ':' in segment:
                     key_segment, value_segment = segment.split(':', 1)
                     if key_segment.strip() != key:
-                        updated_dict[key_segment.strip()
-                                     ] = value_segment.strip()
+                        updated_dict[key_segment.strip()] = value_segment.strip()
         if key not in updated_dict:
             updated_dict[key] = value.split('\n', 1)[0]
     return updated_dict

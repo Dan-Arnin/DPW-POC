@@ -2,7 +2,7 @@ import streamlit as st
 import pdfplumber
 import pandas as pd
 from io import StringIO
-from Extractor import extract_data_from_pdf
+from Extractor_ import extract_data_from_pdf
 
 
 def extract_images_from_pdf(file):
