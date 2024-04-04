@@ -70,5 +70,4 @@ def extract_data_from_pdf(pdf_data):
                                 processed_dictionary[key].extend(z[key])
         processed_dictionary["Contact person"] = processed_dictionary["Contact Person"]
         del processed_dictionary["Contact Person"]
-        print(processed_dictionary)
         return json.dumps(processed_dictionary)
