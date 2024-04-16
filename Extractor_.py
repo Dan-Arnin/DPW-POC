@@ -106,6 +106,8 @@ def extract_data_from_pdf(pdf_data):
                             processed_dictionary[key].extend(z[key])
             except:
                 print("No thrid page")
+        if "Contact Person" in processed_dictionary.keys():
+            processed_dictionary["Contact person"] = processed_dictionary["Contact Person"]
         processed_dictionary["Unchecked"] = processed_dictionary.pop('☐')
         processed_dictionary["Checked"] = processed_dictionary.pop('☒')
         print(json.dumps(processed_dictionary))

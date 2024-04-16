@@ -68,10 +68,11 @@ def extract_data_from_pdf(pdf_data):
                             processed_dictionary.update(s)
                             for key in z.keys():
                                 processed_dictionary[key].extend(z[key])
-        processed_dictionary["Contact person"] = processed_dictionary["Contact Person"]
+        if "Contact Person" in processed_dictionary.keys():
+            processed_dictionary["Contact person"] = processed_dictionary["Contact Person"]
+            del processed_dictionary["Contact Person"]
         processed_dictionary["Checked"] = processed_dictionary["☒"]
         processed_dictionary["Unchecked"] = processed_dictionary["☐"]
-        del processed_dictionary["Contact Person"]
         del processed_dictionary["☐"]
         del processed_dictionary["☒"]
         return json.dumps(processed_dictionary)
