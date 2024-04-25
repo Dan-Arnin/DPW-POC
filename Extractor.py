@@ -11,8 +11,6 @@ def extract_data_from_pdf(pdf_data):
             processed_dictionary['☒'] = []
             vendor_cond = True
             for p0 in pdf.pages:
-                print(pdf.pages)
-                print(p0)
                 p0_tables = p0.extract_tables(table_settings={
                     "vertical_strategy": "lines",
                     "horizontal_strategy": "lines",
@@ -64,8 +62,6 @@ def extract_data_from_pdf(pdf_data):
                                     processed_dictionary["Vendor Selection Criteria"] = processed_dictionary["Vendor Selection Criteria"] +" "+ processed_string[0]
                                 else:
                                     vendor_cond = False
-                                # while "Justification" not in processed_string[0]:
-                                #     processed_dictionary["Vendor Selection Criteria"] = processed_dictionary["Vendor Selection Criteria"] + processed_string[0]
                             s = process_string_list(processed_string)
                             processed_dictionary.update(s)
                             for key in z.keys():
