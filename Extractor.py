@@ -11,6 +11,8 @@ def extract_data_from_pdf(pdf_data):
             processed_dictionary['☒'] = []
             vendor_cond = True
             for p0 in pdf.pages:
+                print(pdf.pages)
+                print(p0)
                 p0_tables = p0.extract_tables(table_settings={
                     "vertical_strategy": "lines",
                     "horizontal_strategy": "lines",
@@ -34,7 +36,6 @@ def extract_data_from_pdf(pdf_data):
                             t = process_values(s)
                             processed_dictionary.update(t)
                 else:
-                    # p0_tables[0] = p0_tables[0][1:]
                     for table in p0_tables:
                         for index,i in enumerate(table):
                             i = [item for item in i if item is not None]
@@ -54,6 +55,7 @@ def extract_data_from_pdf(pdf_data):
                                 u = u.strip()
                                 u = remove_newlines(u)
                                 processed_string.append(u)
+                            
                             z = strings_with_symbol(processed_string)
                             z = reverse_parse_strings(z)
                             processed_string = remove_none_from_list(processed_string)
@@ -61,7 +63,7 @@ def extract_data_from_pdf(pdf_data):
                                 if "Justification" not in processed_string[0]:
                                     processed_dictionary["Vendor Selection Criteria"] = processed_dictionary["Vendor Selection Criteria"] +" "+ processed_string[0]
                                 else:
-                                    vendor_cond = False   
+                                    vendor_cond = False
                                 # while "Justification" not in processed_string[0]:
                                 #     processed_dictionary["Vendor Selection Criteria"] = processed_dictionary["Vendor Selection Criteria"] + processed_string[0]
                             s = process_string_list(processed_string)
@@ -75,4 +77,5 @@ def extract_data_from_pdf(pdf_data):
         processed_dictionary["Unchecked"] = processed_dictionary["☐"]
         del processed_dictionary["☐"]
         del processed_dictionary["☒"]
+        
         return json.dumps(processed_dictionary)

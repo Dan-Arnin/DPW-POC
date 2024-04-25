@@ -30,8 +30,9 @@ def remove_strings_without_colon(string_list):
 def strings_with_symbol(lst):
     result = []
     for string in lst:
-        if '☒' in string or '☐' in string:
-            result.append(string)
+        if string:
+            if '☒' in string or '☐' in string:
+                result.append(string)
     return result
 
 
