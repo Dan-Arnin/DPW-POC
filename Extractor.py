@@ -74,4 +74,4 @@ def extract_data_from_pdf(pdf_data):
         del processed_dictionary["☐"]
         del processed_dictionary["☒"]
         
-        return json.dumps(processed_dictionary)
+        return processed_dictionary
