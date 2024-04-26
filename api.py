@@ -18,6 +18,8 @@ def upload_file():
         # Call the extraction function
         extracted_data = extract_data_from_pdf(pdf_data)
         print(extracted_data)
+        if (len(extracted_data.keys()) <= 2):
+            return jsonify({'error': 'No data extracted from PDF. Please Provide a Digital PDF'})
         return extracted_data
     except Exception as e:
         return jsonify({'error': str(e)})
