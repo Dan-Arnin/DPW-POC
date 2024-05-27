@@ -1,3 +1,11 @@
 pdfplumber
 flask
 gunicorn
+python-dotenv
+langchain
+langchain-mistralai
+langchain-openai
+langchain-community
+sqlalchemy
+oracledb
+yfinance
