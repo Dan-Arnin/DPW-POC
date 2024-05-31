@@ -4,9 +4,10 @@ from .llm_process import (
     date_format_convertor,
     currency_format_check,
     currency_get_format,
+    currency_convertor,
     currency_exchange,
 )
-import oracledb
+import oracledb, re
 
 
 class formatter:
@@ -52,17 +53,63 @@ class formatter:
             return ""
 
 
+def separate_currency(input_string):
+    # Remove punctuation except dots
+    pattern_punct = r"[^\w\s\.]"
+    cleaned_string = re.sub(pattern_punct, "", input_string, flags=re.MULTILINE)
+
+    # Match currency code and amount (allowing dots in the amount)
+    pattern = r"^(\D+)(\d+(?:\.\d+)*)$"
+    match = re.match(pattern, cleaned_string)
+    if match:
+        currency_code = match.group(1)
+        currency_amount = match.group(2).replace(".", "")
+        return "list", [currency_code, currency_amount]
+    elif cleaned_string:
+        return "value", cleaned_string
+    else:
+        return None
+
+
+def is_number(strval):
+    try:
+        val = int(strval)
+        return True
+    except:
+        try:
+            val = float(strval)
+            return True
+        except:
+            return False
+
+
 def format_changer(
     requested_delivery_date, need_identification_date, actual_or_estimated
 ):
     formatter_ = formatter()
-    print(formatter)
     formatter_data = formatter_.run_query()
     # formatter = [('Jan 05 2023', 'December 2022', 'USD 950,000'), ('02/01/23', 'January 2024', 'USD 38,250')]
+    # print(actual_or_estimated)
     actual_or_estimated_num_list = actual_or_estimated.split()
+    final_actual_or_estimated_list = []
+    for value in actual_or_estimated_num_list:
+        print(value)
+        type_, currency = separate_currency(value)
+        if type_ == "list":
+            final_actual_or_estimated_list.append(currency[0])
+            final_actual_or_estimated_list.append(currency[1])
+        elif type_ == "value":
+            final_actual_or_estimated_list.append(currency)
+        else:
+            final_actual_or_estimated_list.append(value)
+
+    print("hauaaa")
+    print(final_actual_or_estimated_list)
     actual_or_estimated_num_value = float(
-        [num for num in actual_or_estimated_num_list if num.isdigit()][0]
+        [num for num in final_actual_or_estimated_list if is_number(num)][0]
     )
+    print("finalll")
+    print(actual_or_estimated_num_value)
     data_dict = {
         "requested_delivery_date": [],
         "need_identification_date": [],
@@ -108,7 +155,7 @@ def format_changer(
             actual_or_estimated_dict = currency_get_format(
                 actual_or_estimated, data_dict["actual_or_estimated"][0]
             )
-            actual_or_estimated = "{:.2f}".format(
+            actual_or_estimated = y = "{:.2f}".format(
                 currency_exchange(
                     actual_or_estimated_dict["currency1"],
                     actual_or_estimated_dict["currency2"],
@@ -126,14 +173,3 @@ def format_changer(
             actual_or_estimated = final_value
 
     return requested_delivery_date, need_identification_date, actual_or_estimated
-
-
-# if __name__ == "__main__":
-#     formatter = formatter()
-#     sql_data = formatter.run_query()
-#     print(sql_data)
-#     data_dict = {
-#         "requested_delivery_date": [],
-#         "need_identification_date": [],
-#         "actual_or_estimated": [],
-#     }
