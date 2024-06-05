@@ -34,21 +34,24 @@ def upload_file():
 @app.route("/api/conneqtion/ai/updater", methods=["POST"])
 def change_data():
     data = request.json
-    # try:
-    print(type(data))
-    requested_delivery_date, need_identification_date, actual_or_estimated = (
-        format_changer(
-            data["requested_delivery_date"],
-            data["need_identification_date"],
-            data["actual_or_estimated"],
+    try:
+        print(type(data))
+        requested_delivery_date, need_identification_date, actual_or_estimated = (
+            format_changer(
+                data["requested_delivery_date"],
+                data["need_identification_date"],
+                data["actual_or_estimated"],
+            )
         )
-    )
-    return {
-        "requested_delivery_date": requested_delivery_date,
-        "need_identification_date": need_identification_date,
-        "actual_or_estimated": data["actual_or_estimated"] ,
-        "updated_actual_or_estimated": actual_or_estimated,
-    }
+        return {
+            "requested_delivery_date": requested_delivery_date,
+            "need_identification_date": need_identification_date,
+            "actual_or_estimated": data["actual_or_estimated"] ,
+            "updated_actual_or_estimated": actual_or_estimated,
+        }
+    except Exception as e:
+        print(e)
+        return {"warning": "Issue a proper format please"}
 
 
 if __name__ == "__main__":
