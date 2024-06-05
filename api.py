@@ -1,6 +1,7 @@
 from ai_formatter.format_main import format_changer
 from flask import Flask, request, jsonify, render_template
 from Extractor import extract_data_from_pdf
+from fastapi.responses import JSONResponse
 import base64
 import json
 
@@ -51,7 +52,7 @@ def change_data():
         }
     except Exception as e:
         print(e)
-        return {"warning": "Issue a proper format please"}
+        return JSONResponse(content={"warning": "Issue a proper format please"}, status_code=400)
 
 
 if __name__ == "__main__":
